@@ -15,7 +15,6 @@ import uce.edu.web.api.matricula.domain.Estudiante;
 
 import java.util.List;
 
-import javax.print.attribute.standard.MediaTray;
 
 @Path("/estudiantes")
 @Produces(MediaType.APPLICATION_JSON)

@@ -32,7 +32,7 @@ public class EstudianteService {
         estudiante.apellido = estu.apellido;
         estudiante.nombre = estu.nombre;
         estudiante.fechaNacimiento = estu.fechaNacimiento;
-        //se actualiza automaticamente por dirty checking
+        
         }
         
         @Transactional
