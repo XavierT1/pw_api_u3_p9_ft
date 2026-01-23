@@ -26,12 +26,14 @@ public class EstudianteResource {
 
     @GET
     @Path("")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Estudiante> listarTodos() {
-        System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        System.out.println("ListarTODOSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         return this.estudianteService.listarTodos();
     }
     @GET
     @Path("/provincia/genero")
+    @Produces(MediaType.APPLICATION_XML)
     public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia, @QueryParam("genero") String genero) {
         System.out.println("LISTAR POR PROVINCIA Y GENERO XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     
