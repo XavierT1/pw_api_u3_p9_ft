@@ -1,6 +1,7 @@
 package uce.edu.web.api.matricula.interfaces;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -16,12 +17,12 @@ import uce.edu.web.api.matricula.domain.Materia;
 
 import java.util.List;
 
-
 @Path("/materias")
 @Produces(MediaType.APPLICATION_JSON)
 public class MateriaResource {
     @Inject
     private MateriaService materiaService;
+
     @GET
     @Path("")
     public List<Materia> listarTodos() {
@@ -30,32 +31,42 @@ public class MateriaResource {
 
     @GET
     @Path("/{id}")
-    public Materia consultarPorId(@PathParam("id")Integer ident) {
-        return this.materiaService.consultarPorId(ident);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response consultarPorId(@PathParam("id") Integer ident) {
+        Materia materia = this.materiaService.consultarPorId(ident);
+        return Response.status(Response.Status.NOT_FOUND).entity(materia).build();
     }
+
     @POST
     @Path("")
-    public void guardar(Materia materia){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response guardar(Materia materia) {
         this.materiaService.crear(materia);
-       
+        return Response.status(209).entity(null).build();
     }
 
     @PUT
     @Path("{id}")
-    public void actualizar(@PathParam("id")Integer id, Materia materia){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizar(@PathParam("id") Integer id, Materia materia) {
         this.materiaService.actualizar(id, materia);
+        return Response.status(200).entity(null).build();
     }
 
     @PATCH
     @Path("/{id}")
-    public void actualizarParcial(@PathParam("id")Integer id, Materia materia){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarParcial(@PathParam("id") Integer id, Materia materia) {
         this.materiaService.actualizarParcial(id, materia);
+        return Response.status(200).entity(null).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void borrar(@PathParam("id")Integer id){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response borrar(@PathParam("id") Integer id) {
         this.materiaService.borrar(id);
+        return Response.status(Response.Status.NOT_FOUND).entity(null).build();
     }
 
     // --- ENDPOINTS ADICIONALES ---
@@ -63,15 +74,19 @@ public class MateriaResource {
     // Consultar materia por código
     @GET
     @Path("/{codigo}")
-    public Materia consultarPorCodigo(@PathParam("codigo") String codigo) {
-        return this.materiaService.consultarPorCodigo(codigo);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response consultarPorCodigo(@PathParam("codigo") String codigo) {
+        Materia materia = this.materiaService.consultarPorCodigo(codigo);
+        return Response.status(Response.Status.NOT_FOUND).entity(materia).build();
     }
 
     // Borrar materia por código
     @DELETE
     @Path("/{codigo}")
-    public void borrarPorCodigo(@PathParam("codigo") String codigo) {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response borrarPorCodigo(@PathParam("codigo") String codigo) {
         this.materiaService.borrarPorCodigo(codigo);
+        return Response.status(Response.Status.NOT_FOUND).entity(null).build();
     }
 
 }

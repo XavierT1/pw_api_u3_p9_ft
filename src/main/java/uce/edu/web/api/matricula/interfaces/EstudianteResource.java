@@ -1,6 +1,7 @@
 package uce.edu.web.api.matricula.interfaces;
 
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -17,7 +18,6 @@ import uce.edu.web.api.matricula.domain.Estudiante;
 
 import java.util.List;
 
-
 @Path("/estudiantes")
 @Produces(MediaType.APPLICATION_JSON)
 public class EstudianteResource {
@@ -31,44 +31,55 @@ public class EstudianteResource {
         System.out.println("ListarTODOSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
         return this.estudianteService.listarTodos();
     }
+
     @GET
     @Path("/provincia/genero")
-    @Produces(MediaType.APPLICATION_XML)
-    public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia, @QueryParam("genero") String genero) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia,
+            @QueryParam("genero") String genero) {
         System.out.println("LISTAR POR PROVINCIA Y GENERO XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-    
+
         return this.estudianteService.buscarPorProvincia(provincia, genero);
     }
-    
+
     @GET
     @Path("/{id}")
-    public Estudiante consultarPorId(@PathParam("id")Integer ident) {
-        return this.estudianteService.consultarPorId(ident);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response consultarPorId(@PathParam("id") Integer ident) {
+        Estudiante estu = this.estudianteService.consultarPorId(ident);
+        return Response.status(Response.Status.NOT_FOUND).entity(estu).build();
     }
+
     @POST
     @Path("")
-    public Response guardar(Estudiante estu){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response guardar(Estudiante estu) {
         this.estudianteService.crear(estu);
-         return Response.status(Response.Status.CREATED).entity(estu).build();
+        return Response.status(Response.Status.CREATED).entity(estu).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response actualizar(@PathParam("id")Integer id, Estudiante estu){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizar(@PathParam("id") Integer id, Estudiante estu) {
         this.estudianteService.actualizar(id, estu);
         return Response.status(209).entity(null).build();
     }
 
     @PATCH
     @Path("/{id}")
-    public void actualizarParcial(@PathParam("id")Integer id, Estudiante estu){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarParcial(@PathParam("id") Integer id, Estudiante estu) {
         this.estudianteService.actualizarParcial(id, estu);
+        return Response.status(209).entity(null).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public void borrar(@PathParam("id")Integer id){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response borrar(@PathParam("id") Integer id) {
         this.estudianteService.borrar(id);
+        return Response.status(Response.Status.NOT_FOUND).entity(null).build();
     }
 
 }
