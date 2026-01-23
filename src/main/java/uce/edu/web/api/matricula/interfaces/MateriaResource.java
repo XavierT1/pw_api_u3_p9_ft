@@ -10,6 +10,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.MateriaService;
 import uce.edu.web.api.matricula.domain.Materia;
 
@@ -36,6 +37,7 @@ public class MateriaResource {
     @Path("")
     public void guardar(Materia materia){
         this.materiaService.crear(materia);
+       
     }
 
     @PUT
