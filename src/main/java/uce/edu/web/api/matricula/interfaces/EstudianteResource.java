@@ -14,7 +14,9 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import uce.edu.web.api.matricula.application.EstudianteService;
+import uce.edu.web.api.matricula.application.HijoService;
 import uce.edu.web.api.matricula.domain.Estudiante;
+import uce.edu.web.api.matricula.domain.Hijo;
 
 import java.util.List;
 
@@ -23,6 +25,8 @@ import java.util.List;
 public class EstudianteResource {
     @Inject
     private EstudianteService estudianteService;
+    @Inject
+    private HijoService hijoService;
 
     @GET
     @Path("")
@@ -44,15 +48,16 @@ public class EstudianteResource {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_XML)
     public Response consultarPorId(@PathParam("id") Integer ident) {
         Estudiante estu = this.estudianteService.consultarPorId(ident);
-        return Response.status(Response.Status.NOT_FOUND).entity(estu).build();
+        return Response.status(200).entity(estu).build();
     }
 
     @POST
     @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response guardar(Estudiante estu) {
         this.estudianteService.crear(estu);
         return Response.status(Response.Status.CREATED).entity(estu).build();
@@ -60,18 +65,19 @@ public class EstudianteResource {
 
     @PUT
     @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes
     public Response actualizar(@PathParam("id") Integer id, Estudiante estu) {
         this.estudianteService.actualizar(id, estu);
-        return Response.status(209).entity(null).build();
+        return Response.status(Response.Status.OK).entity(estu).build();    
     }
 
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response actualizarParcial(@PathParam("id") Integer id, Estudiante estu) {
+    public void actualizarParcial(@PathParam("id") Integer id, Estudiante estu) {
         this.estudianteService.actualizarParcial(id, estu);
-        return Response.status(209).entity(null).build();
+        
     }
 
     @DELETE
@@ -82,4 +88,9 @@ public class EstudianteResource {
         return Response.status(Response.Status.NOT_FOUND).entity(null).build();
     }
 
+    @GET
+    @Path("/{id}/hijos")
+    public List<Hijo> buscarHijosPorEstudiante(@PathParam("id") Integer id) {
+        return this.hijoService.buscarPorIdEstudiante(id);
+    }
 }

@@ -34,7 +34,7 @@ public class MateriaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response consultarPorId(@PathParam("id") Integer ident) {
         Materia materia = this.materiaService.consultarPorId(ident);
-        return Response.status(Response.Status.NOT_FOUND).entity(materia).build();
+        return Response.status(200).entity(materia).build();
     }
 
     @POST
