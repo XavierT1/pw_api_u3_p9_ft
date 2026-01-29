@@ -3,7 +3,7 @@ package uce.edu.web.api.matricula.aplication;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import uce.edu.web.api.matricula.aplication.representation.Estudianterepresentation;
+import uce.edu.web.api.matricula.aplication.representation.EstudianteRepresentation;
 import uce.edu.web.api.matricula.domain.Estudiante;
 import uce.edu.web.api.matricula.infrastructure.EstudianteRepository;
 
@@ -19,18 +19,18 @@ public class EstudianteService {
         return estudianteRepository.listAll();
     }
 
-    public Estudianterepresentation consultarbyId(Integer id){
+    public EstudianteRepresentation consultarbyId(Integer id){
         Estudiante est = estudianteRepository.findById(id.longValue());
         return toRepresentation(est);
     }
 
     @Transactional
-    public void crear(Estudianterepresentation rep){
+    public void crear(EstudianteRepresentation rep){
         estudianteRepository.persist(toEntity(rep));
     }
 
     @Transactional
-    public void actualizar(Integer id, Estudianterepresentation rep){
+    public void actualizar(Integer id, EstudianteRepresentation rep){
         Estudiante estudiante = estudianteRepository.findById(id.longValue());
 
         estudiante.nombre = rep.nombre;
@@ -40,7 +40,7 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void actualizarParcial(Integer id, Estudianterepresentation rep){
+    public void actualizarParcial(Integer id, EstudianteRepresentation rep){
         Estudiante estudiante = estudianteRepository.findById(id.longValue());
 
         if (rep.nombre != null)
@@ -71,17 +71,17 @@ public class EstudianteService {
     // MAPPERS
     // ==========================
 
-    private Estudianterepresentation toRepresentation(Estudiante est) {
-        Estudianterepresentation rep = new Estudianterepresentation();
-        rep.id = est.id;
-        rep.nombre = est.nombre;
-        rep.apellido = est.apellido;
-        rep.fechaNacimiento = est.fechaNacimiento;
-        rep.provincia = est.provincia;
-        return rep;
-    }
+    public EstudianteRepresentation toRepresentation(Estudiante est) {
+    EstudianteRepresentation rep = new EstudianteRepresentation();
+    rep.id = est.id;
+    rep.nombre = est.nombre;
+    rep.apellido = est.apellido;
+    rep.fechaNacimiento = est.fechaNacimiento;
+    rep.provincia = est.provincia;
+    return rep;
+}
 
-    private Estudiante toEntity(Estudianterepresentation rep) {
+    private Estudiante toEntity(EstudianteRepresentation rep) {
         Estudiante est = new Estudiante();
         est.id = rep.id;
         est.nombre = rep.nombre;
