@@ -14,7 +14,7 @@ public class CORSFilter implements ContainerResponseFilter {
 
         responseContext.getHeaders().add(
                 "Access-Control-Allow-Origin",
-                "http://localhost:8080"
+                "*"
         );
 
         responseContext.getHeaders().add(
@@ -24,12 +24,12 @@ public class CORSFilter implements ContainerResponseFilter {
 
         responseContext.getHeaders().add(
                 "Access-Control-Allow-Headers",
-                "origin, content-type, accept, authorization"
+                "origin, content-type, accept, authorization, x-requested-with"
         );
 
         responseContext.getHeaders().add(
                 "Access-Control-Allow-Methods",
-                "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+                "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
         );
     }
 }
