@@ -1,5 +1,7 @@
 package uce.edu.web.api.matricula.interfaces;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -16,6 +18,8 @@ import uce.edu.web.api.matricula.domain.Estudiante;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.quarkus.arc.All;
+
 @Path("/estudiantes")
 @Produces(MediaType.APPLICATION_JSON)
 public class EstudianteResource {
@@ -30,6 +34,7 @@ public class EstudianteResource {
     @GET
     @Path("")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
 public List<EstudianteRepresentation> listarTodos() {
     List<Estudiante> lista = this.estudianteService.listarTodos();
     List<EstudianteRepresentation> listaRep = new ArrayList<>();
@@ -43,6 +48,7 @@ public List<EstudianteRepresentation> listarTodos() {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    //@PermitAll
     public EstudianteRepresentation consultarbyId(@PathParam("id") Integer id) {
         return this.construirLinks(this.estudianteService.consultarbyId(id));
     }
@@ -51,6 +57,7 @@ public List<EstudianteRepresentation> listarTodos() {
     @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response registrar(EstudianteRepresentation estudiante) {
         this.estudianteService.crear(estudiante);
         return Response.status(Response.Status.CREATED).entity(estudiante).build();
@@ -60,6 +67,7 @@ public List<EstudianteRepresentation> listarTodos() {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response actualizar(@PathParam("id") Integer id, EstudianteRepresentation estudiante) {
         this.estudianteService.actualizar(id,estudiante);
         return Response.status(209).entity(estudiante).build();
@@ -68,12 +76,14 @@ public List<EstudianteRepresentation> listarTodos() {
     @PATCH
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public void actualizarParcial(@PathParam("id") Integer id, EstudianteRepresentation estudiante) {
         this.estudianteService.actualizarParcial(id,estudiante);
     }
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("admin")
     public void eliminar(@PathParam("id") Integer id) {
         this.estudianteService.eliminar(id);
     }
@@ -81,6 +91,7 @@ public List<EstudianteRepresentation> listarTodos() {
     @GET
     @Path("/provincia/genero")
     @Produces(MediaType.APPLICATION_XML)
+    @RolesAllowed("admin")
     public List<Estudiante> buscarPorProvincia(@QueryParam("provincia") String provincia, @QueryParam("genero") String genero) {
         System.out.println("ListarPorProvincia");
         return this.estudianteService.buscarPorProvincia(provincia, genero);
@@ -88,6 +99,7 @@ public List<EstudianteRepresentation> listarTodos() {
 
     @GET
     @Path("/{id}/hijos")
+    @RolesAllowed("admin")
     public List<Hijorepresentation> buscarPorIdEstudiante(@PathParam("id") Integer id) {
         return this.hijoService.buscarPorIdEstudiante(id);
     }
