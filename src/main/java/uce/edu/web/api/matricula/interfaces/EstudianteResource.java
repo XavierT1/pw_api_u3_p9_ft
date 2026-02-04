@@ -18,7 +18,6 @@ import uce.edu.web.api.matricula.domain.Estudiante;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.quarkus.arc.All;
 
 @Path("/estudiantes")
 @Produces(MediaType.APPLICATION_JSON)
