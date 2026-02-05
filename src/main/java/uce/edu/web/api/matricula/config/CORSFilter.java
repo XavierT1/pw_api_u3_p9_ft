@@ -1,4 +1,4 @@
-package uce.edu.web.api.matricula.config;
+/*package uce.edu.web.api.matricula.config;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;
@@ -33,4 +33,4 @@ public class CORSFilter implements ContainerResponseFilter {
         );
     }
 }
- 
+ */
