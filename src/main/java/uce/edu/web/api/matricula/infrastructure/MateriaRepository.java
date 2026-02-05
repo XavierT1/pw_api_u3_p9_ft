@@ -5,7 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import uce.edu.web.api.matricula.domain.Materia;
 
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class MateriaRepository implements PanacheRepository<Materia> {
